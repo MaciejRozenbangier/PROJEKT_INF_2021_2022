@@ -39,7 +39,7 @@ Player::~Player()
 
 void Player::move(const float dirX, const float dirY)
 {
-	this->sprite.move(dirX,dirY);
+	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
 void Player::update()

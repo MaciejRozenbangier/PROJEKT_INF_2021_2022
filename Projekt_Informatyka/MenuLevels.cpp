@@ -1,7 +1,12 @@
 #include "MenuLevels.h"
 
 
-MenuLevels::MenuLevels(float width, float height)
+void MenuLevels::initVariables()
+{
+	this->selectedItemIndex = 0;
+}
+
+void MenuLevels::initGui(float width, float height)
 {
 	if (!font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
@@ -19,6 +24,13 @@ MenuLevels::MenuLevels(float width, float height)
 	menu[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	selectedItemIndex = 0;
+}
+
+MenuLevels::MenuLevels(int* widok)
+{
+	this->widok = widok;
+	this->initVariables();
+	this->initGui(1200.f, 800.f);
 }
 
 
@@ -51,5 +63,46 @@ void MenuLevels::MoveDown()
 		menu[selectedItemIndex].setFillColor(sf::Color::White);
 		selectedItemIndex++;
 		menu[selectedItemIndex].setFillColor(sf::Color::Red);
+	}
+}
+
+void MenuLevels::update_sterowanie(sf::Event& sfEvent)
+{
+	switch (sfEvent.type)
+	{
+	case sf::Event::KeyReleased:
+		switch (sfEvent.key.code)
+		{
+		case sf::Keyboard::Up:
+			MoveUp();
+			break;
+		case sf::Keyboard::Down:
+			MoveDown();
+			break;
+		
+		case sf::Keyboard::Escape:
+			*widok = 0;
+			break;
+
+		case sf::Keyboard::Return:
+			//Glowne Menu
+
+			switch (GetPressedItem())
+			{
+			case 0:
+				*widok = 2;
+				//funkcja albo odnoœnik od ³adowania poziom 1
+
+				if (sf::Event::KeyReleased == sf::Keyboard::Escape)
+					*widok = 1;
+				break;
+			case 1:
+				*widok = 2;
+				//funkcja albo odnoœnik od ³adowania poziom 2
+				break;
+			}
+			break;
+		}
+		break;
 	}
 }

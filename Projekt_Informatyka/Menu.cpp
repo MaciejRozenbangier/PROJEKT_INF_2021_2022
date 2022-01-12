@@ -31,12 +31,12 @@ void Menu::initGui(float width, float height)
 
 }
 
-Menu::Menu()
+Menu::Menu(int* widok)
 {
+	this->widok = widok;
 	this->initVariables();
 	this->initGui(1200.f,800.f);
 
-	
 }
 
 
@@ -76,4 +76,41 @@ void Menu::sterowanieMenu()
 {
 	
 
+}
+
+void Menu::update_sterowanie(sf::Event& sfEvent)
+{
+	switch (sfEvent.type)
+	{
+	case sf::Event::KeyReleased:
+		switch (sfEvent.key.code)
+		{
+		case sf::Keyboard::Up:
+				MoveUp();
+			break;
+		case sf::Keyboard::Down:
+				MoveDown();
+			break;
+
+		case sf::Keyboard::Return:
+			//Glowne Menu
+			
+				switch (GetPressedItem())
+				{
+				case 0:
+					std::cout << "Play button has been pressed" << std::endl;
+					*widok = 1;
+					break;
+				case 1:
+					std::cout << "Option button has been pressed" << std::endl;
+					//*widok = 3; // Ranking
+					break;
+				case 2:
+					exit(0);
+					break;
+				}
+				break;
+		}
+		break;
+	}
 }

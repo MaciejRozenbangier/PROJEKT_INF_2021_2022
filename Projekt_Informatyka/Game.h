@@ -8,30 +8,29 @@
 class Game
 {
 private:
+	int widok = 0;
+
 	//Window
 	sf::RenderWindow* window;
 	sf::Event sfEvent;
 	//Menu
-	Menu menu;
-	MenuLevels menuLevels{ 1200.f, 800.f };
+	Menu menu{ &widok };
+	MenuLevels menuLevels{ &widok };
 	//player 
 
 	Player* player;
 
-	sf::Texture worldBackgroundTex;
-	sf::Sprite worldBackground;
 
+	
+
+	
 	//private functions
 	void initWindow();
 	void initVariables();
-	void initBackground();
 	void initPlayer();
 
 	
-	bool isMenuOpen;
-	bool isMenuLevelsOpen;
-	bool isGameRun;
-
+	
 public:
 	Game();
 	~Game();
@@ -43,12 +42,12 @@ public:
 	
 	void updateMenu();
 	void updateMoving();
-	void updateMovingMenu();
 	void update();
+	
 
-	void renderBackground();
-	void renderMenu();
-	void renderMenuLevels();
+	void rysowanieRozgrywki();
 	void render();
+
+	void update_sterowanie();
 };
 

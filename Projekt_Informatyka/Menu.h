@@ -10,6 +10,7 @@ class Menu
 private:
 	//zmienne
 	int selectedItemIndex;
+	int* widok;
 
 	//czcionka
 	sf::Font font;
@@ -24,7 +25,9 @@ private:
 	void initGui(float width, float height);
 
 public:
-	Menu();
+
+	Menu(int* widok);
+	Menu() = default;
 	~Menu();
 
 	void draw(sf::RenderWindow& window);
@@ -32,6 +35,7 @@ public:
 	void MoveDown();
 	void sterowanieMenu();
 	int GetPressedItem() { return selectedItemIndex; }
+	void update_sterowanie(sf::Event& sfEvent);
 
 
 };
