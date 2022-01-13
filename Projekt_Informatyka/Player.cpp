@@ -6,7 +6,8 @@
 void Player::initZmienne()
 {
 	this->predkoscGracza = 10.f;
-
+	this->resetAtakMax = 10.f;
+	this->resetAtak = this->resetAtakMax;
 }
 
 void Player::initTesktura()
@@ -26,6 +27,7 @@ void Player::initSprite()
 
 	//Zmniejszenie sprita
 	this->sprite.scale(0.1f, 0.1f);
+	this->sprite.setPosition(sf::Vector2f(577.f, 750.f));
 
 }
 
@@ -40,6 +42,26 @@ Player::Player()
 Player::~Player()
 {
 
+}
+
+const sf::Vector2f& Player::getPos() const
+{
+	return this->sprite.getPosition();
+}
+
+const sf::FloatRect Player::getBounds() const
+{
+	return this->sprite.getGlobalBounds();
+}
+
+void Player::setPosition(const sf::Vector2f pos)
+{
+	this->sprite.setPosition(pos);
+}
+
+void Player::setPosition(const float x, const float y)
+{
+	this->sprite.setPosition(x, y);
 }
 
 
@@ -63,6 +85,24 @@ void Player::move()
 		this->sprite.move(0, 10);
 
 }
+void Player::updateAtak()
+{
+	if (this->resetAtak < this->resetAtakMax)
+	{
+		this->resetAtak += 1.f;
+	}
+}
+
+const bool Player::mozeAtakowac()
+{
+	if (this->resetAtak >= this->resetAtakMax)
+	{
+		this->resetAtak = 0.f;
+		return true;
+	}
+	return false;
+}
+
 
 void Player::onEvent(sf::Event e)
 {
@@ -73,6 +113,7 @@ void Player::onEvent(sf::Event e)
 void Player::update()
 {
 	this->move();
+	this->updateAtak();
 }
 
 void Player::draw(sf::RenderWindow& window)

@@ -19,9 +19,10 @@ private:
     void up();
     void down();
     void exit();
+    void sele();
     void init(float width, float height);
 
-
+   
 
 
 

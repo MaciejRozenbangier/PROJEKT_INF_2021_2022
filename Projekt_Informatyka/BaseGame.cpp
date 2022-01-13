@@ -2,12 +2,14 @@
 #include "Menu.h"
 #include "Game.h"
 
+
+
 void BaseGame::start()
 {
 
     Menu m{ &this->scena };
-    Game g{ &this->scena };
-    this->scena = 1;
+    Game g{ &this->scena, &window };
+    this->scena = 0;
     this->window.create(sf::VideoMode(1200, 800), "Tytul", sf::Style::Close | sf::Style::Titlebar);
     this->window.setFramerateLimit(60);
 
@@ -15,7 +17,8 @@ void BaseGame::start()
     {
         while (this->window.pollEvent(this->event))
         {
-            switch (scena) {
+            switch (scena)
+            {
             case 0:
                 m.onEvent(this->event);
                 break;
@@ -30,7 +33,8 @@ void BaseGame::start()
                 break;
             }
         }
-        switch (scena) {
+        switch (scena) 
+        {
         case 0:
             m.update();
             break;
@@ -42,7 +46,8 @@ void BaseGame::start()
             break;
         }
         this->window.clear(sf::Color::Black);
-        switch (scena) {
+        switch (scena) 
+        {
         case 0:
             m.draw(this->window);
             break;

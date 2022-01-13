@@ -9,6 +9,7 @@ private:
     int scena = 0;
 
 public:
+   
     BaseGame() = default;
     void start();
 };

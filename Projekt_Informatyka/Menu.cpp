@@ -10,6 +10,8 @@ void Menu::onEvent(sf::Event e)
             this->up();
         if (e.key.code == sf::Keyboard::Key::S)
             this->down();
+        if (e.key.code == sf::Keyboard::Key::Enter)
+            this->sele();
         if (e.key.code == sf::Keyboard::Key::E)
             this->exit();
         break;
@@ -37,12 +39,13 @@ Menu::Menu(int* scena)
 
 void Menu::play()
 {
-    //*scena = 1;
+    *scena = 1;
 }
 
 void Menu::help()
 {
-    //*scena = 2;
+    *scena = 2;
+
 }
 
 void Menu::up()
@@ -66,8 +69,22 @@ void Menu::down()
     }
 }
 
-void Menu::exit() {
+void Menu::exit() 
+{
     std::cout << "Wyjscie" << std::endl;
+}
+
+void Menu::sele()
+{
+    switch (this->selectedItemIndex)
+    {
+    case 0:
+        play();
+        break;
+    case 1:
+        break;
+   
+    }
 }
 
 
