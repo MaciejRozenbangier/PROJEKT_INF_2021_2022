@@ -1,14 +1,17 @@
 #include "Player.h"
+#include <iostream>
 
-void Player::initVariables()
+
+
+void Player::initZmienne()
 {
-	this->movementSpeed = 10.f;
+	this->predkoscGracza = 10.f;
 
 }
 
-void Player::initTexture()
+void Player::initTesktura()
 {
-	//Load a texture from file
+	//zaladowanie tekstury z pliku
 	if (!this->texture.loadFromFile("Textures/ship.png"))
 	{
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
@@ -18,37 +21,62 @@ void Player::initTexture()
 
 void Player::initSprite()
 {
-	//ustawienie tekstury do sprite
+	//ustawienie tekstury
 	this->sprite.setTexture(this->texture);
 
 	//Zmniejszenie sprita
 	this->sprite.scale(0.1f, 0.1f);
+
 }
 
 Player::Player()
 {
-	this->initVariables();
-	this->initTexture();
+	this->initZmienne();
+	this->initTesktura();
 	this->initSprite();
+
 }
 
 Player::~Player()
 {
-	
+
 }
 
-void Player::move(const float dirX, const float dirY)
+
+
+void Player::kolizja()
 {
-	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+
+
+
+}
+
+void Player::move()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		this->sprite.move(-10, 0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		this->sprite.move(10, 0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		this->sprite.move(0, -10);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		this->sprite.move(0, 10);
+
+}
+
+void Player::onEvent(sf::Event e)
+{
+
+
 }
 
 void Player::update()
 {
-
-
+	this->move();
 }
 
-void Player::render(sf::RenderTarget& target)
+void Player::draw(sf::RenderWindow& window)
 {
-	target.draw(this->sprite);
+	window.draw(this->sprite);
+
 }

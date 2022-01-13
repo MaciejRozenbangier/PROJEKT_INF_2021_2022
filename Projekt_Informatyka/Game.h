@@ -1,53 +1,21 @@
 #pragma once
-#include "Menu.h"
-#include "MenuLevels.h"
-#include "Player.h"
-#include "SFML/Graphics.hpp"
 #include <iostream>
+#include "Player.h"
 
 class Game
 {
 private:
-	int widok = 0;
 
-	//Window
-	sf::RenderWindow* window;
-	sf::Event sfEvent;
-	//Menu
-	Menu menu{ &widok };
-	MenuLevels menuLevels{ &widok };
-	//player 
+    void initPlayer();
 
-	Player* player;
+    Player* player;
 
-
-	
-
-	
-	//private functions
-	void initWindow();
-	void initVariables();
-	void initPlayer();
-
-	
-	
 public:
-	Game();
-	~Game();
+    Game(int* scena);
+    ~Game();
 
-
-	void run();
-
-
-	
-	void updateMenu();
-	void updateMoving();
-	void update();
-	
-
-	void rysowanieRozgrywki();
-	void render();
-
-	void update_sterowanie();
+    void onEvent(sf::Event e); // obsu³a zdarzeñ
+    void update();// coœ co siê robi co 1 klatkê
+    void draw(sf::RenderWindow& window);//rysowanie wsztkich elementów
 };
 

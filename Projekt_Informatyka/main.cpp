@@ -1,10 +1,10 @@
-#include "SFML/Graphics.hpp"
 #include <iostream>
+#include "BaseGame.h"
 
-#include "Game.h"
 
-int main()
+int main() 
 {
-	Game game;
-	game.run();
+    BaseGame game;
+    game.start();
+    return 0;
 }

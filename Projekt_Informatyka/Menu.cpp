@@ -1,116 +1,98 @@
 #include "Menu.h"
+#include <iostream>
 
-
-void Menu::initVariables()
+void Menu::onEvent(sf::Event e)
 {
-	this->selectedItemIndex = 0;
+    switch (e.type)
+    {
+    case sf::Event::KeyPressed:
+        if (e.key.code == sf::Keyboard::Key::W)
+            this->up();
+        if (e.key.code == sf::Keyboard::Key::S)
+            this->down();
+        if (e.key.code == sf::Keyboard::Key::E)
+            this->exit();
+        break;
+    }
 }
 
-
-
-void Menu::initGui(float width, float height)
+void Menu::update()
 {
-	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
-	{
-		std::cout << "Could not load font::Menu";
-	}
-	menu[0].setFont(font);
-	menu[0].setFillColor(sf::Color::Red);
-	menu[0].setString("Play");
-	menu[0].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
-	menu[1].setFont(font);
-	menu[1].setFillColor(sf::Color::White);
-	menu[1].setString("Options");
-	menu[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
-
-	menu[2].setFont(font);
-	menu[2].setFillColor(sf::Color::White);
-	menu[2].setString("Exit");
-	menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
-
-}
-
-Menu::Menu(int* widok)
-{
-	this->widok = widok;
-	this->initVariables();
-	this->initGui(1200.f,800.f);
-
-}
-
-
-Menu::~Menu()
-{
 }
 
 void Menu::draw(sf::RenderWindow& window)
 {
-	for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
-	{
-		window.draw(menu[i]);
-	}
+    for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
+    {
+        window.draw(menu[i]);
+    }
 }
 
-void Menu::MoveUp()
+Menu::Menu(int* scena)
 {
-	if (selectedItemIndex - 1 >= 0)
-	{
-		menu[selectedItemIndex].setFillColor(sf::Color::White);
-		selectedItemIndex--;
-		menu[selectedItemIndex].setFillColor(sf::Color::Red);
-	}
+    this->scena = scena;
+    this->init(1200.f, 800.f);
 }
 
-void Menu::MoveDown()
+void Menu::play()
 {
-	if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
-	{
-		menu[selectedItemIndex].setFillColor(sf::Color::White);
-		selectedItemIndex++;
-		menu[selectedItemIndex].setFillColor(sf::Color::Red);
-	}
+    //*scena = 1;
 }
 
-void Menu::sterowanieMenu()
+void Menu::help()
 {
-	
-
+    //*scena = 2;
 }
 
-void Menu::update_sterowanie(sf::Event& sfEvent)
+void Menu::up()
 {
-	switch (sfEvent.type)
-	{
-	case sf::Event::KeyReleased:
-		switch (sfEvent.key.code)
-		{
-		case sf::Keyboard::Up:
-				MoveUp();
-			break;
-		case sf::Keyboard::Down:
-				MoveDown();
-			break;
 
-		case sf::Keyboard::Return:
-			//Glowne Menu
-			
-				switch (GetPressedItem())
-				{
-				case 0:
-					std::cout << "Play button has been pressed" << std::endl;
-					*widok = 1;
-					break;
-				case 1:
-					std::cout << "Option button has been pressed" << std::endl;
-					//*widok = 3; // Ranking
-					break;
-				case 2:
-					exit(0);
-					break;
-				}
-				break;
-		}
-		break;
-	}
+    if (selectedItemIndex - 1 >= 0)
+    {
+        menu[selectedItemIndex].setFillColor(sf::Color::White);
+        selectedItemIndex--;
+        menu[selectedItemIndex].setFillColor(sf::Color::Red);
+    }
 }
+
+void Menu::down()
+{
+    if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
+    {
+        menu[selectedItemIndex].setFillColor(sf::Color::White);
+        selectedItemIndex++;
+        menu[selectedItemIndex].setFillColor(sf::Color::Red);
+    }
+}
+
+void Menu::exit() {
+    std::cout << "Wyjscie" << std::endl;
+}
+
+
+
+void Menu::init(float width, float height)
+{
+    this->selectedItemIndex = 0;
+
+    if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
+    {
+        std::cout << "Could not load font::Menu";
+    }
+    menu[0].setFont(font);
+    menu[0].setFillColor(sf::Color::Red);
+    menu[0].setString("Graj");
+    menu[0].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
+
+    menu[1].setFont(font);
+    menu[1].setFillColor(sf::Color::White);
+    menu[1].setString("Ostatnie wyniki");
+    menu[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+
+    menu[2].setFont(font);
+    menu[2].setFillColor(sf::Color::White);
+    menu[2].setString("WyjdŸ z gry");
+    menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+}
+

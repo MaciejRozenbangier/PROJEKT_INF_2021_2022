@@ -1,30 +1,33 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include <iostream>
-
-
 
 class Player
 {
 private:
-	sf::Sprite sprite;
-	sf::Texture texture;
+    sf::RenderWindow* window;
+    sf::Sprite sprite;
+    sf::Texture texture;
 
-	float movementSpeed;
 
+    float predkoscGracza;
 
-	void initVariables();
-	void initTexture();
-	void initSprite();
+    void initZmienne();
+    void initTesktura();
+    void initSprite();
 
 public:
-	Player();
-	virtual ~Player();
+    Player();
+    ~Player();
+    //gettery
 
-	void move(const float dirX, const float dirY);
 
 
-	void update();
-	void render(sf::RenderTarget& target);
+    void kolizja();
+    void move();
+
+    void onEvent(sf::Event e); // obsu³a zdarzeñ
+    void update();// coœ co siê robi co 1 klatkê
+    void draw(sf::RenderWindow& window);// dodaæ rysowanie wsztkich elementów
+
 };
 
