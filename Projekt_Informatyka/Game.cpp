@@ -1,7 +1,16 @@
 #include "Game.h"
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include <fstream>
 
+void Game::initBackground()
+{
+	if (!this->tloTexture.loadFromFile("Textures/tlo.jpg"))
+	{
+		std::cout << "Coudnt load image";
+	}
+	this->tloSprite.setTexture(this->tloTexture);
+}
 
 void Game::initPlayer()
 {
@@ -13,23 +22,58 @@ void Game::initTextures()
 {
 	this->textures["POCISK"] = new sf::Texture();
 	this->textures["POCISK"]->loadFromFile("Textures/pocisk.png");
-	
 }
 
 void Game::initEnemies()
 {
 	this->spawnTimerMax = 50.f;
 	this->spawnTimer = this->spawnTimerMax;
+}
 
+void Game::initSerca()
+{
+	this->sercaSpawnTimerMax = 250.f;
+	this->sercaSpawnTimer = this->sercaSpawnTimerMax;
+}
+
+void Game::initPasekZycia()
+{
+	this->playerHpBar.setSize(sf::Vector2f(350.f, 30.f));
+	this->playerHpBar.setFillColor(sf::Color::Red);
+	this->playerHpBar.setPosition(sf::Vector2f(800.f, 20.f));
+
+	this->playerHpBarBack = this->playerHpBar;
+	this->playerHpBarBack.setFillColor(sf::Color(25, 25, 25, 200));
+
+	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
+		std::cout << "ERROR::GAME::Failed to load font" << "\n";
+
+	this->koniecGry.setFont(this->font);
+	this->koniecGry.setCharacterSize(80);
+	this->koniecGry.setFillColor(sf::Color::White);
+	this->koniecGry.setString("Game Over!");
+	this->koniecGry.setPosition(sf::Vector2f(550.f,400.f));
+}
+
+void Game::save()
+{
+	saveStruct buffor;
+	buffor.score = this->points;
+	buffor.level = this->leveltype;
+	std::ofstream stream("wyniki.txt", std::ios::app | std::ios::binary);
+	stream.write((const char*)&buffor, sizeof(saveStruct));
+	stream.close();
 }
 
 Game::Game(int* scena, sf::RenderWindow* window)
 {
 	this->window = window;
-	this->initPlayer();
+	this->initBackground();
 	this->initTextures();
+	this->initPlayer();
 	this->initEnemies();
-
+	this->initPasekZycia();
+	this->initSerca();
 }
 
 Game::~Game()
@@ -45,6 +89,10 @@ Game::~Game()
 		delete i;
 	}
 	for (auto* i : this->enemies)
+	{
+		delete i;
+	}
+	for (auto* i : this->serca)
 	{
 		delete i;
 	}
@@ -102,13 +150,47 @@ void Game::updateEnemies()
 		}
 		else if (enemy->getBounds().intersects(this->player->getBounds()))
 		{
-			//this->player->loseHp(this->enemies.at(counter)->getDamage());
 			delete this->enemies.at(counter);
 			this->enemies.erase(this->enemies.begin() + counter);
+			--counter;
+			this->player->loseHp(10);
 		}
 		++counter;
 	}
 
+}
+
+void Game::updateSerca()
+{
+	this->sercaSpawnTimer += 1.f;
+	if (this->sercaSpawnTimer >= this->sercaSpawnTimerMax)
+	{
+		this->serca.push_back(new Serce(rand() % this->window->getSize().x - 20.f, -100.f));
+		this->sercaSpawnTimer = 0.f;
+	}
+
+	//Update
+	unsigned counter = 0;
+	for (auto* serce : this->serca)
+	{
+		serce->update();
+
+		//serca culling (top of screen)
+		if (serce->getBounds().top > this->window->getSize().y)
+		{
+			//Delete enemy
+			delete this->serca.at(counter);
+			this->serca.erase(this->serca.begin() + counter);
+		}
+		else if (serce->getBounds().intersects(this->player->getBounds()))
+		{
+			delete this->serca.at(counter);
+			this->serca.erase(this->serca.begin() + counter);
+			--counter;
+			this->player->gainHp(5);
+		}
+		++counter;
+	}
 }
 
 void Game::updateKolizjaGraczPrzeciwnik()
@@ -134,6 +216,32 @@ void Game::updateKolizjaGraczPrzeciwnik()
 		}
 	}
 
+}
+
+void Game::updatePasekZycia()
+{
+	
+	float procentZycia = (float)this->player->getHp() / this->player->getHpMax();
+	this->playerHpBar.setSize(sf::Vector2f(350.f * procentZycia, this->playerHpBar.getSize().y));
+
+}
+
+void Game::start(int a)
+{
+	this->leveltype = a;
+	this->points = 0;
+	this->enemies.clear();
+	this->serca.clear();
+	switch (a)
+	{
+	case 1:
+		this->spawnTimerMax = 120;
+		break;
+	case 2:
+		this->spawnTimerMax = 10;
+		break;
+	
+	}
 }
 
 
@@ -163,14 +271,20 @@ void Game::kolizjaSciany()
 
 }
 
+void Game::drawGUI()
+{
+	this->window->draw(this->playerHpBarBack);
+	this->window->draw(this->playerHpBar);
+}
+
+
 void Game::onEvent(sf::Event e)
 {
-	
 	switch (e.type)
 	{
 	case sf::Event::KeyPressed:
 		if (e.key.code == sf::Keyboard::Key::Escape)
-			
+
 		if (e.key.code == sf::Keyboard::Key::F1)
 			std::cout << "Pomoc";
 	}
@@ -178,18 +292,24 @@ void Game::onEvent(sf::Event e)
 
 void Game::update()
 {
-	player->update();
-	kolizjaSciany();
-	tworzeniePociskow();
-	updatePociski();
-	updateEnemies();
-	updateKolizjaGraczPrzeciwnik();
-
+	if (this->player->getHp() > 0)
+	{
+		player->update();
+		kolizjaSciany();
+		tworzeniePociskow();
+		updatePociski();
+		updateEnemies();
+		updateSerca();
+		updateKolizjaGraczPrzeciwnik();
+		updatePasekZycia();
+	}
 }
 
 
 void Game::draw(sf::RenderWindow& window)
 {
+	this->window->draw(this->tloSprite);
+
 	player->draw(window);
 	for (auto* enemy : this->enemies)
 	{
@@ -201,5 +321,14 @@ void Game::draw(sf::RenderWindow& window)
 	{
 		bullet->draw(*this->window);
 	}
-
+	for (auto* serce : this->serca)
+	{
+		serce->draw(window);
+	}
+	this->drawGUI();
+	if (this->player->getHp() <= 0)
+	{
+		this->window->draw(this->koniecGry);
+		this->save();
+	}
 }

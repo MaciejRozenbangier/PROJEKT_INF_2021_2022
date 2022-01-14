@@ -37,14 +37,15 @@ Menu::Menu(int* scena)
     this->init(1200.f, 800.f);
 }
 
-void Menu::play()
+void Menu::play(int a)
 {
-    *scena = 1;
+
+    *scena = a;
 }
 
 void Menu::help()
 {
-    *scena = 2;
+    //*scena = 2;
 
 }
 
@@ -79,11 +80,11 @@ void Menu::sele()
     switch (this->selectedItemIndex)
     {
     case 0:
-        play();
+        play(1);
         break;
     case 1:
+        play(2);
         break;
-   
     }
 }
 
@@ -99,17 +100,23 @@ void Menu::init(float width, float height)
     }
     menu[0].setFont(font);
     menu[0].setFillColor(sf::Color::Red);
-    menu[0].setString("Graj");
+    menu[0].setString("Poziom latwy");
     menu[0].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
     menu[1].setFont(font);
     menu[1].setFillColor(sf::Color::White);
-    menu[1].setString("Ostatnie wyniki");
+    menu[1].setString("Poziom trudny");
     menu[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
     menu[2].setFont(font);
     menu[2].setFillColor(sf::Color::White);
-    menu[2].setString("Wyjdü z gry");
+    menu[2].setString("Ostatnie wyniki");
     menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+
+    menu[3].setFont(font);
+    menu[3].setFillColor(sf::Color::White);
+    menu[3].setString("Wyjdü z gry");
+    menu[3].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 4));
 }
+
 

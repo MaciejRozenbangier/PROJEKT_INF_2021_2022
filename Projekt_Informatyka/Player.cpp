@@ -8,6 +8,9 @@ void Player::initZmienne()
 	this->predkoscGracza = 10.f;
 	this->resetAtakMax = 10.f;
 	this->resetAtak = this->resetAtakMax;
+
+	this->hpMax = 100;
+	this->hp = this->hpMax;
 }
 
 void Player::initTesktura()
@@ -54,6 +57,16 @@ const sf::FloatRect Player::getBounds() const
 	return this->sprite.getGlobalBounds();
 }
 
+const int& Player::getHp() const
+{
+	return this->hp;
+}
+
+const int& Player::getHpMax() const
+{
+	return this->hpMax;
+}
+
 void Player::setPosition(const sf::Vector2f pos)
 {
 	this->sprite.setPosition(pos);
@@ -64,25 +77,39 @@ void Player::setPosition(const float x, const float y)
 	this->sprite.setPosition(x, y);
 }
 
-
-
-void Player::kolizja()
+void Player::setHp(const int hp)
 {
-
-
-
+	this->hp = hp;
 }
+
+void Player::loseHp(const int value)
+{
+	this->hp -= value;
+	if (this->hp < 0)
+		this->hp = 0;
+}
+
+void Player::gainHp(const int value)
+{
+	this->hp += value;
+	if (this->hp > hpMax)
+		this->hp = hpMax;
+}
+
+
+
+
 
 void Player::move()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		this->sprite.move(-10, 0);
+		this->sprite.move(-13, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		this->sprite.move(10, 0);
+		this->sprite.move(13, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		this->sprite.move(0, -10);
+		this->sprite.move(0, -13);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		this->sprite.move(0, 10);
+		this->sprite.move(0, 13);
 
 }
 void Player::updateAtak()

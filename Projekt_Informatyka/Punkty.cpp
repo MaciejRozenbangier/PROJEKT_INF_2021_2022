@@ -12,7 +12,7 @@ void Punkty::initPunkty()
 	this->pointText.setFont(this->font);
 	this->pointText.setCharacterSize(32);
 	this->pointText.setFillColor(sf::Color::White);
-	this->pointText.setString("");
+	this->pointText.setString("Punkty: 0");
 
 }
 

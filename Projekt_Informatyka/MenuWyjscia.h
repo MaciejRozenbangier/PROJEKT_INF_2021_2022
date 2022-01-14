@@ -1,34 +1,30 @@
 #pragma once
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
-#define MAX_NUMBER_OF_ITEMS 4
+#define MAX_NUMBER_OF_ITEMS_MENUWYJSCIA 2
 
-
-class Menu 
+class MenuWyjscia
 {
-protected:
+private:
+	sf::Font font;
+	sf::Text menu[MAX_NUMBER_OF_ITEMS_MENUWYJSCIA];
 
-    sf::Font font;
-    sf::Text menu[MAX_NUMBER_OF_ITEMS];
+    sf::Text text;
 
     int selectedItemIndex;
     int* scena;
 
-    void play(int a);
-    void help();
     void up();
     void down();
-    void exit();
-    void sele();
     void init(float width, float height);
- 
-public:
 
-    Menu(int* scena);
+public:
+    MenuWyjscia(int* scena);
+    ~MenuWyjscia();
+
+
     void onEvent(sf::Event e); // obsu³a zdarzeñ
     void update();// coœ co siê robi co 1 klatkê
     void draw(sf::RenderWindow& window);// dodaæ rysowanie wsztkich elementów
-
 };
-
 
