@@ -1,6 +1,7 @@
 #include "BaseGame.h"
 #include "Menu.h"
 #include "MenuWyjscia.h"
+#include "Pomoc.h"
 #include "Game.h"
 
 
@@ -10,6 +11,7 @@ void BaseGame::start()
     Menu m{ &this->scena };
     MenuWyjscia mw{ &this->scena };
     Game g{ &this->scena, &window };
+    Pomoc p{ &this->scena };
     this->scena = 0;
     this->window.create(sf::VideoMode(1200, 800), "Tytul", sf::Style::Close | sf::Style::Titlebar);
     this->window.setFramerateLimit(60);
@@ -30,17 +32,22 @@ void BaseGame::start()
             case 1:
                 if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::Escape)
                     scena = 3;
+                if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::F1)
+                    scena = 4;
                 g.onEvent(this->event);
                 break;
             case 2:
-                g.onEvent(this->event);
-                if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::Escape)
+                if(event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::Escape)
                     scena = 3;
+                if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::F1)
+                    scena = 4;
+                g.onEvent(this->event);
                 break;
             case 3:
                 mw.onEvent(this->event);
                 break;
             case 4:
+                p.onEvent(this->event);
                 break;
             }
         }
@@ -82,6 +89,7 @@ void BaseGame::start()
             mw.draw(this->window);
             break;
         case 4:
+            p.draw(this->window);
             break;
         }
         scena_old = scena;

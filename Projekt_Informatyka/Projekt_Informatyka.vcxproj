@@ -153,6 +153,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pocisk.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Pomoc.cpp" />
     <ClCompile Include="Punkty.cpp" />
     <ClCompile Include="Serce.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Pocisk.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Pomoc.h" />
     <ClInclude Include="Punkty.h" />
     <ClInclude Include="Serce.h" />
   </ItemGroup>

@@ -232,6 +232,8 @@ void Game::start(int a)
 	this->points = 0;
 	this->enemies.clear();
 	this->serca.clear();
+	this->pociski.clear();
+	this->player->setPosition(sf::Vector2f(577.f, 750.f));
 	switch (a)
 	{
 	case 1:

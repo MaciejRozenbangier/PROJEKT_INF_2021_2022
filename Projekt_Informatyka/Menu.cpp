@@ -12,8 +12,15 @@ void Menu::onEvent(sf::Event e)
             this->down();
         if (e.key.code == sf::Keyboard::Key::Enter)
             this->sele();
-        if (e.key.code == sf::Keyboard::Key::E)
+        if (e.key.code == sf::Keyboard::Key::Escape)
             this->exit();
+        break;
+    case sf::Event::KeyReleased:
+        if (e.key.code == sf::Keyboard::Key::Enter)
+        {
+            if (selectedItemIndex == 3)
+                this->exit();
+        }
         break;
     }
 }
@@ -72,7 +79,7 @@ void Menu::down()
 
 void Menu::exit() 
 {
-    std::cout << "Wyjscie" << std::endl;
+    std::exit(0);
 }
 
 void Menu::sele()
