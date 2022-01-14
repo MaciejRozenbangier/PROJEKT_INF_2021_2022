@@ -237,7 +237,7 @@ void Game::start(int a)
 	switch (a)
 	{
 	case 1:
-		this->spawnTimerMax = 120;
+		this->spawnTimerMax = 30;
 		break;
 	case 2:
 		this->spawnTimerMax = 10;

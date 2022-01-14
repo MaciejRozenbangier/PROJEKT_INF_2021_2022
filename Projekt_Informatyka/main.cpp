@@ -1,3 +1,9 @@
+/*Temat gry:
+ statki kosmiczne
+ */
+
+
+
 #include <iostream>
 #include <time.h>
 #include "BaseGame.h"
