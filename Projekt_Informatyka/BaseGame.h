@@ -11,10 +11,11 @@ private:
     int scena_old = 0;
 
     bool flag = false;
+
 public:
     BaseGame() = default;
     void start();
-    void setdataForGame(int a);
+    
 };
 
 

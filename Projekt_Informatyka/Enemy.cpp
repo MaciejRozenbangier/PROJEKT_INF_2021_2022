@@ -47,6 +47,11 @@ const int& Enemy::getPoints() const
 	return this->points;
 }
 
+const int& Enemy::setPoints(int punkty) const
+{
+	return punkty = points;
+}
+
 void Enemy::update()
 {
 	this->sprite.move(0.f,10.f);

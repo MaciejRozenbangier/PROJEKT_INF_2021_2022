@@ -92,6 +92,10 @@ void Menu::sele()
     case 1:
         play(2);
         break;
+    case 2:
+        *this->scena = 5;
+        break;
+         
     }
 }
 

@@ -22,6 +22,7 @@ public:
 
 	const sf::FloatRect getBounds() const;
 	const int& getPoints() const;
+	const int& setPoints(int points) const;
 
 	void update();// coœ co siê robi co 1 klatkê
 	void draw(sf::RenderWindow& window);// dodaæ rysowanie wsztkich elementów

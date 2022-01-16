@@ -74,8 +74,7 @@ void MenuWyjscia::onEvent(sf::Event e)
                 *scena = 0;
             if (selectedItemIndex == 1)
                 *scena = 1;
-        }
-            
+        }    
         break;
     }
 }

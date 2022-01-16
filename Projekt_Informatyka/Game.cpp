@@ -57,11 +57,12 @@ void Game::initPasekZycia()
 
 void Game::save()
 {
-	saveStruct buffor;
+	saveStruct buffor = { 0 };
 	buffor.score = this->points;
 	buffor.level = this->leveltype;
-	std::ofstream stream("wyniki.txt", std::ios::app | std::ios::binary);
-	stream.write((const char*)&buffor, sizeof(saveStruct));
+	std::ofstream stream;
+	stream.open("wyniki.txt", std::ios::app | std::ios::binary);
+	stream.write((const char*)&buffor, sizeof(buffor));
 	stream.close();
 }
 
@@ -228,8 +229,11 @@ void Game::updatePasekZycia()
 
 void Game::start(int a)
 {
+	this->flag = false;
+	this->player->setHp(100);
 	this->leveltype = a;
 	this->points = 0;
+	this->punkty.setPoints(this->points);
 	this->enemies.clear();
 	this->serca.clear();
 	this->pociski.clear();
@@ -259,7 +263,6 @@ void Game::kolizjaSciany()
 	{
 		this->player->setPosition(this->window->getSize().x - this->player->getBounds().width, this->player->getBounds().top);
 	}
-
 	//gora
 	if (this->player->getBounds().top < 0.f)
 	{
@@ -331,6 +334,11 @@ void Game::draw(sf::RenderWindow& window)
 	if (this->player->getHp() <= 0)
 	{
 		this->window->draw(this->koniecGry);
-		this->save();
+		if (!flag)
+		{
+			this->save();
+			flag = true;
+		}
+		//this->points = 0;
 	}
 }

@@ -10,8 +10,8 @@
 
 struct saveStruct
 {
-    uint32_t score;
-    uint8_t level;
+    int score;
+    int level;
 };
 
 class Game
@@ -19,7 +19,7 @@ class Game
 private:
     sf::Texture tloTexture;
     sf::Sprite tloSprite;
-
+    bool flag = false;
     //zasoby
     std::map<std::string, sf::Texture*> textures;
     std::vector<Pocisk*> pociski;

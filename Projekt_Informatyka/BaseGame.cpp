@@ -2,6 +2,7 @@
 #include "Menu.h"
 #include "MenuWyjscia.h"
 #include "Pomoc.h"
+#include "OstatnieWyniki.h"
 #include "Game.h"
 
 
@@ -12,10 +13,11 @@ void BaseGame::start()
     MenuWyjscia mw{ &this->scena };
     Game g{ &this->scena, &window };
     Pomoc p{ &this->scena };
+    OstatnieWyniki ow{ &this->scena };
     this->scena = 0;
-    this->window.create(sf::VideoMode(1200, 800), "Tytul", sf::Style::Close | sf::Style::Titlebar);
+    this->window.create(sf::VideoMode(1200, 800), "Statki", sf::Style::Close | sf::Style::Titlebar);
     this->window.setFramerateLimit(60);
-
+   
     while (this->window.isOpen())
     {
         while (this->window.pollEvent(this->event))
@@ -49,6 +51,9 @@ void BaseGame::start()
             case 4:
                 p.onEvent(this->event);
                 break;
+            case 5:
+                ow.onEvent(this->event);
+                break;
             }
         }
         switch (scena) 
@@ -72,6 +77,11 @@ void BaseGame::start()
             mw.update();
         case 4:
             break;
+        case 5:
+            if(scena_old!=scena)
+                ow.odczyt();
+            ow.update();
+            break;
         }
         this->window.clear(sf::Color::Black);
         switch (scena) 
@@ -91,13 +101,12 @@ void BaseGame::start()
         case 4:
             p.draw(this->window);
             break;
+        case 5:
+            ow.draw(this->window);
+            break;
         }
         scena_old = scena;
         this->window.display();
     }
 }
 
-void BaseGame::setdataForGame(int a)
-{
-    
-}
